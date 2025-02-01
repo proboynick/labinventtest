@@ -1,0 +1,16 @@
+<h2>Add New File</h2>
+<p-fileupload
+  url=""
+  (onUpload)="onUpload($event)"
+  [multiple]="true"
+  accept=".json"
+  maxFileSize="5242880"
+  mode="advanced"
+  (onSelect)="showFiles($event)"
+  chooseLabel="Select File"
+  uploadLabel="Add to Store"
+>
+  <ng-template #empty>
+    <div>Drag and drop files to here to upload.</div>
+  </ng-template>
+</p-fileupload>
