@@ -1,12 +1,12 @@
 <h2>Recent Files</h2>
 <p-table
-  [value]="history"
+  [value]="$any(fileStore$ | async)"
   selectionMode="multiple"
   [tableStyle]="{ 'min-width': '25rem' }"
   stripedRows
   (onRowSelect)="onRowSelect($event)"
   [(selection)]="selectedFiles"
-  dataKey="fileName"
+  dataKey="uploadDate"
   (onHeaderCheckboxToggle)="showSelectedfiles()"
 >
   <ng-template #header>
@@ -26,7 +26,7 @@
       </td>
       <td>{{ item.fileName }}</td>
       <td>{{ item.fileSize }}</td>
-      <td>{{ item.uploadDate }}</td>
+      <td>{{ item.uploadDate | date : "medium" }}</td>
     </tr>
   </ng-template>
 </p-table>

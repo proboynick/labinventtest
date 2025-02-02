@@ -1,12 +1,12 @@
 <h2>Add New File</h2>
 <p-fileupload
-  url=""
-  (onUpload)="onUpload($event)"
-  [multiple]="true"
+  #form
+  [customUpload]="true"
+  [multiple]="false"
   accept=".json"
   maxFileSize="5242880"
   mode="advanced"
-  (onSelect)="showFiles($event)"
+  (uploadHandler)="onUpload($event, form)"
   chooseLabel="Select File"
   uploadLabel="Add to Store"
 >
