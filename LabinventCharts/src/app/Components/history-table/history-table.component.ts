@@ -12,7 +12,6 @@ import { CommonModule } from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HistoryTableComponent {
-  // history: RecentFiles[] = [];
   selectedFiles: RecentFiles[] = [];
 
   get fileStore$() {
