@@ -3,6 +3,8 @@ import { TableModule, TableRowSelectEvent } from 'primeng/table';
 import { RecentFiles } from '../../Interfaces/RecentFiles';
 import { FileStoreService } from '../../Services/file-store.service';
 import { CommonModule } from '@angular/common';
+import { Store } from '@ngrx/store';
+import { selectFiles } from '../../Redux/files-store.selector';
 
 @Component({
   selector: 'app-history-table',
@@ -15,10 +17,10 @@ export class HistoryTableComponent {
   selectedFiles: RecentFiles[] = [];
 
   get fileStore$() {
-    return this.storeService.fileStore$;
+    return this.store.select(selectFiles);
   }
 
-  constructor(private storeService: FileStoreService) {}
+  constructor(private store: Store) {}
 
   onRowSelect = (event: TableRowSelectEvent) => {
     console.log(event, this.selectedFiles);

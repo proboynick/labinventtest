@@ -6,9 +6,10 @@ import {
 } from 'primeng/fileupload';
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
-import { FileStoreService } from '../../Services/file-store.service';
 import { RecentFiles } from '../../Interfaces/RecentFiles';
 import { ValidData } from '../../Interfaces/ValidData';
+import { Store } from '@ngrx/store';
+import { pushFile } from '../../Redux/files-store.actions';
 
 @Component({
   selector: 'app-file-input-form',
@@ -19,13 +20,11 @@ import { ValidData } from '../../Interfaces/ValidData';
 })
 export class FileInputFormComponent {
   private fileReader: FileReader = new FileReader();
-  uploadedFiles: File[] = [];
 
-  constructor(private storeService: FileStoreService) {}
+  constructor(private store: Store) {}
 
   private validateFileContent = (fileContent: string): null | ValidData[] => {
     if (typeof fileContent !== 'string' || !fileContent.length) {
-      console.log('empty file');
       return null;
     }
     const parsedData = JSON.parse(fileContent);
@@ -39,7 +38,6 @@ export class FileInputFormComponent {
       if (!('value' in el) || typeof el.value !== 'number') return;
       validatedData.push(el);
     });
-    console.log(validatedData);
     return validatedData;
   };
 
@@ -62,7 +60,7 @@ export class FileInputFormComponent {
         return;
       }
       fileDTO.fileContent = dataArray;
-      this.storeService.pushFileToStore(fileDTO);
+      this.store.dispatch(pushFile({ file: fileDTO }));
     };
     form.clear();
   };
