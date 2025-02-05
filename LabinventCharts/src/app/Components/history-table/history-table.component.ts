@@ -4,6 +4,7 @@ import { RecentFiles } from '../../Interfaces/RecentFiles';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { selectFiles } from '../../Redux/files-store.selector';
+import { setCurrentChartData } from '../../Redux/files-store.actions';
 
 @Component({
   selector: 'app-history-table',
@@ -22,7 +23,9 @@ export class HistoryTableComponent {
   constructor(private store: Store) {}
 
   onRowSelect = (event: TableRowSelectEvent) => {
-    console.log(event, this.selectedFiles);
+    this.store.dispatch(
+      setCurrentChartData({ data: this.selectedFiles?.fileContent || [] })
+    );
   };
 
   showSelectedfiles = () => {
