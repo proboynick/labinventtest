@@ -1,19 +1,16 @@
 <h2>Recent Files</h2>
 <p-table
   [value]="$any(fileStore$ | async)"
-  selectionMode="multiple"
+  selectionMode="single"
   [tableStyle]="{ 'min-width': '25rem' }"
   stripedRows
   (onRowSelect)="onRowSelect($event)"
   [(selection)]="selectedFiles"
   dataKey="uploadDate"
-  (onHeaderCheckboxToggle)="showSelectedfiles()"
 >
   <ng-template #header>
     <tr>
-      <th style="width: 2rem">
-        <p-tableHeaderCheckbox />
-      </th>
+      <th style="width: 2rem"></th>
       <th>File Name</th>
       <th>File Size</th>
       <th>Upload Date</th>
@@ -22,7 +19,7 @@
   <ng-template #body let-item>
     <tr>
       <td>
-        <p-tableCheckbox [value]="item" />
+        <p-tableRadioButton [value]="item" />
       </td>
       <td>{{ item.fileName }}</td>
       <td>{{ item.fileSize }}</td>

@@ -1,7 +1,6 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TableModule, TableRowSelectEvent } from 'primeng/table';
 import { RecentFiles } from '../../Interfaces/RecentFiles';
-import { FileStoreService } from '../../Services/file-store.service';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { selectFiles } from '../../Redux/files-store.selector';
@@ -14,7 +13,7 @@ import { selectFiles } from '../../Redux/files-store.selector';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HistoryTableComponent {
-  selectedFiles: RecentFiles[] = [];
+  selectedFiles: RecentFiles | null = null;
 
   get fileStore$() {
     return this.store.select(selectFiles);
