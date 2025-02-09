@@ -7,7 +7,16 @@ import {
 } from '@angular/core';
 import * as d3 from 'd3';
 import { ValidData } from '../../Interfaces/ValidData';
-import { appendMockTextToSvg } from '../../Utils';
+import { appendMockTextToSvg, createSvgElement } from '../../Utils';
+import {
+  BAR_PADDING_COEF,
+  CHART_HEIGHT_PX,
+  CHART_WIDTH_PX,
+  MARGIN_BOTTOM_PX,
+  MARGIN_LEFT_PX,
+  MARGIN_RIGHT_PX,
+  MARGIN_TOP_PX,
+} from '../../Constants';
 
 @Component({
   selector: 'app-bar-chart',
@@ -23,20 +32,8 @@ export class BarChartComponent {
   @Input() data: ValidData[] = [];
   @Input() colorPalette: d3.ScaleOrdinal<string, unknown, never> | null = null;
 
-  private width = 640;
-  private height = 640;
-
-  private barSvg: d3.Selection<SVGSVGElement, undefined, null, undefined> = d3
-    .create('svg')
-    .attr('width', this.width)
-    .attr('height', this.height)
-    .attr('viewBox', [
-      -this.width / 2,
-      -this.height / 2,
-      this.width,
-      this.height,
-    ])
-    .attr('style', 'max-width: 100%; height: auto; user-select: none');
+  private barSvg: d3.Selection<SVGSVGElement, undefined, null, undefined> =
+    createSvgElement(CHART_WIDTH_PX, CHART_HEIGHT_PX);
 
   constructor() {}
 
@@ -45,21 +42,28 @@ export class BarChartComponent {
   }
 
   ngOnChanges() {
-    this.renderBarChart();
+    this.renderBarChart(
+      MARGIN_TOP_PX,
+      MARGIN_RIGHT_PX,
+      MARGIN_BOTTOM_PX,
+      MARGIN_LEFT_PX
+    );
   }
 
   private createHorizontalScale(
+    width: number,
     marginLeft: number,
     marginRight: number
   ): d3.ScaleBand<string> {
     return d3
       .scaleBand()
       .domain(this.data.map((d) => d.category))
-      .range([marginLeft, this.width - marginRight])
-      .padding(0.1);
+      .range([marginLeft, width - marginRight])
+      .padding(BAR_PADDING_COEF);
   }
 
   private createVerticalScale(
+    height: number,
     marginBottom: number,
     marginTop: number
   ): d3.ScaleLinear<number, number, never> {
@@ -67,7 +71,7 @@ export class BarChartComponent {
       .scaleLinear()
       .domain([0, d3.max(this.data, (d: ValidData) => d.value) as number])
       .nice()
-      .range([this.height - marginBottom, marginTop]);
+      .range([height - marginBottom, marginTop]);
   }
 
   private drawBars(
@@ -75,7 +79,7 @@ export class BarChartComponent {
     yScale: d3.ScaleLinear<number, number, never>
   ): void {
     this.barSvg
-      .attr('viewBox', [0, 0, this.width, this.height])
+      .attr('viewBox', [0, 0, CHART_WIDTH_PX, CHART_HEIGHT_PX])
       .append('g')
       .selectAll()
       .data(this.data)
@@ -93,43 +97,56 @@ export class BarChartComponent {
 
   private drawHorizontalAxis(
     xAxis: d3.Axis<string>,
-    marginBottom: number,
-    bandwidth: number
+    minY: number,
+    height: number,
+    marginBottom: number
   ) {
     this.barSvg
       .append('g')
-      .attr('transform', `translate(0,${this.height - marginBottom})`)
+      .attr('transform', `translate(${minY},${height - marginBottom})`)
       .call(xAxis)
-      .attr('font-size', bandwidth < 16 ? '8px' : '14px');
+      .attr('font-size', '12px');
   }
 
-  private drawVerticalAxis(yAxis: d3.Axis<d3.NumberValue>, marginLeft: number) {
+  private drawVerticalAxis(
+    yAxis: d3.Axis<d3.NumberValue>,
+    minX: number,
+    marginLeft: number
+  ) {
     this.barSvg
       .append('g')
-      .attr('transform', `translate(${marginLeft},0)`)
+      .attr('transform', `translate(${marginLeft},${minX})`)
       .call(yAxis)
       .attr('font-size', '14px');
   }
 
-  private renderBarChart() {
-    const marginTop = 30;
-    const marginRight = 20;
-    const marginBottom = 30;
-    const marginLeft = 40;
-
+  private renderBarChart(
+    marginTop: number,
+    marginRight: number,
+    marginBottom: number,
+    marginLeft: number
+  ) {
     this.barSvg.selectAll('g').remove();
     if (!this.data.length || !this.colorPalette) {
       appendMockTextToSvg(this.barSvg);
       return;
     }
 
-    const xScale = this.createHorizontalScale(marginLeft, marginRight);
+    const xScale = this.createHorizontalScale(
+      CHART_WIDTH_PX,
+      marginLeft,
+      marginRight
+    );
     const xAxis = d3.axisBottom(xScale).tickSize(0).tickPadding(5);
-    const yScale = this.createVerticalScale(marginBottom, marginTop);
+    const yScale = this.createVerticalScale(
+      CHART_HEIGHT_PX,
+      marginBottom,
+      marginTop
+    );
     const yAxis = d3.axisLeft(yScale).tickSize(5);
 
     this.drawBars(xScale, yScale);
-    this.drawHorizontalAxis(xAxis, marginBottom, xScale.bandwidth());
-    this.drawVerticalAxis(yAxis, marginLeft);
+    this.drawHorizontalAxis(xAxis, 0, CHART_HEIGHT_PX, marginBottom);
+    this.drawVerticalAxis(yAxis, 0, marginLeft);
   }
 }

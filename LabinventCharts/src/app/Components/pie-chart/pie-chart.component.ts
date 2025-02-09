@@ -9,7 +9,15 @@ import {
 import { ValidData } from '../../Interfaces/ValidData';
 import { CommonModule } from '@angular/common';
 import * as d3 from 'd3';
-import { appendMockTextToSvg } from '../../Utils';
+import { appendMockTextToSvg, createSvgElement } from '../../Utils';
+import {
+  CHART_HEIGHT_PX,
+  CHART_WIDTH_PX,
+  PIE_CHART_INNER_RADIUS_PX,
+  PIE_CHART_OUTER_RADIUS_PX,
+  PIE_CHART_PAD_ANGLE_RAD,
+  PIE_CHART_STROKE_OPACITY,
+} from '../../Constants';
 
 @Component({
   selector: 'app-pie-chart',
@@ -25,21 +33,8 @@ export class PieChartComponent implements OnChanges {
   @Input() data: ValidData[] = [];
   @Input() colorPalette: d3.ScaleOrdinal<string, unknown, never> | null = null;
 
-  private width = 640;
-  private height = 640;
-  private radius = 300;
-
-  private pieSvg: d3.Selection<SVGSVGElement, undefined, null, undefined> = d3
-    .create('svg')
-    .attr('width', this.width)
-    .attr('height', this.height)
-    .attr('viewBox', [
-      -this.width / 2,
-      -this.height / 2,
-      this.width,
-      this.height,
-    ])
-    .attr('style', 'max-width: 100%; height: auto; user-select: none');
+  private pieSvg: d3.Selection<SVGSVGElement, undefined, null, undefined> =
+    createSvgElement(CHART_WIDTH_PX, CHART_HEIGHT_PX);
 
   private pie = d3
     .pie<ValidData>()
@@ -75,11 +70,11 @@ export class PieChartComponent implements OnChanges {
       .join('path')
       .attr('d', (d) => {
         return this.arcGenerator({
-          innerRadius: this.radius * 0,
-          outerRadius: this.radius,
+          innerRadius: PIE_CHART_INNER_RADIUS_PX,
+          outerRadius: PIE_CHART_OUTER_RADIUS_PX,
           startAngle: d.startAngle,
           endAngle: d.endAngle,
-          padAngle: 0,
+          padAngle: PIE_CHART_PAD_ANGLE_RAD,
         });
       })
       .attr('fill', (d) =>
@@ -89,20 +84,19 @@ export class PieChartComponent implements OnChanges {
       )
       .attr('stroke', '#ffffff')
       .style('stroke-width', '0.5px')
-      .style('opacity', 1);
+      .style('opacity', PIE_CHART_STROKE_OPACITY);
     this.appendLabels(data);
   }
 
   private convertArcToPercents(startAngle: number, endAngle: number): string {
-    return ((100 * (endAngle - startAngle)) / (2 * Math.PI)).toFixed(1) + '%';
+    return `${((100 * (endAngle - startAngle)) / (2 * Math.PI)).toFixed(1)}%`;
   }
 
   private appendLabels(data: d3.PieArcDatum<ValidData>[]) {
     const arcLabel = d3
       .arc()
-      .innerRadius(this.radius * 0.7)
-      .outerRadius(this.radius * 1)
-      .padAngle(0.007);
+      .innerRadius(PIE_CHART_OUTER_RADIUS_PX * 0.7)
+      .outerRadius(PIE_CHART_OUTER_RADIUS_PX * 0.9);
 
     this.pieSvg
       .append('g')
@@ -119,7 +113,7 @@ export class PieChartComponent implements OnChanges {
         text
           .filter((d) => d.endAngle - d.startAngle > 0.15)
           .append('tspan')
-          .attr('font-size', (d) => `16px`)
+          .attr('font-size', '16px')
           .attr('font-weight', 'bold')
           .attr('fill-opacity', 0.5)
           .text((d) => d.data.category)

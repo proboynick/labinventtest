@@ -1,0 +1,15 @@
+export const BAR_PADDING_COEF = 0.05;
+export const CHART_HEIGHT_PX = 640;
+export const CHART_WIDTH_PX = 640;
+export const HEIGHT_PX = 640;
+export const MARGIN_BOTTOM_PX = 20;
+export const MARGIN_LEFT_PX = 20;
+export const MARGIN_RIGHT_PX = 20;
+export const MARGIN_TOP_PX = 20;
+export const MIN_X = 0;
+export const MIN_Y = 0;
+export const PIE_CHART_INNER_RADIUS_PX = 0;
+export const PIE_CHART_OUTER_RADIUS_PX = 300;
+export const PIE_CHART_PAD_ANGLE_RAD = 0;
+export const PIE_CHART_STROKE_OPACITY = 1;
+export const WIDTH_PX = 640;
