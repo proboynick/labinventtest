@@ -45,8 +45,6 @@ export class PieChartComponent implements OnChanges {
 
   private arcGenerator = d3.arc();
 
-  constructor() {}
-
   ngAfterViewInit() {
     this.pieChart?.nativeElement.append(this.pieSvg.node());
   }

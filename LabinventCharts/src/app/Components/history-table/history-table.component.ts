@@ -22,13 +22,9 @@ export class HistoryTableComponent {
 
   constructor(private store: Store) {}
 
-  onRowSelect = (event: TableRowSelectEvent) => {
+  onRowSelect = () => {
     this.store.dispatch(
       setCurrentChartData({ data: this.selectedFiles?.fileContent || [] })
     );
-  };
-
-  showSelectedfiles = () => {
-    console.log(this.selectedFiles);
   };
 }

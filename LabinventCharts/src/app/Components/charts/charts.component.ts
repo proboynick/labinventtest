@@ -9,11 +9,7 @@ import { selectChartData } from '../../Redux/files-store.selector';
 import { Subscription } from 'rxjs';
 import { PieChartComponent } from '../pie-chart/pie-chart.component';
 import { BarChartComponent } from '../bar-chart/bar-chart.component';
-
-interface ChartData {
-  category: string;
-  value: number;
-}
+import { ValidData } from '../../Interfaces/ValidData';
 
 @Component({
   selector: 'app-charts',
@@ -25,7 +21,7 @@ interface ChartData {
 export class ChartsComponent {
   private storeDataSubscription: Subscription | null = null;
 
-  data: ChartData[] = [];
+  data: ValidData[] = [];
 
   colorPalette: d3.ScaleOrdinal<string, unknown, never> | null = null;
 
@@ -46,7 +42,7 @@ export class ChartsComponent {
     this.storeDataSubscription?.unsubscribe();
   }
 
-  private generateColorPallette(data: ChartData[]) {
+  private generateColorPallette(data: ValidData[]) {
     return d3
       .scaleOrdinal()
       .domain(data.map((d) => d.category))

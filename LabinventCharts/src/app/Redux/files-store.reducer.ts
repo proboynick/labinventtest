@@ -2,7 +2,6 @@ import { createReducer, on } from '@ngrx/store';
 import { RecentFiles } from '../Interfaces/RecentFiles';
 import { pushFile, setCurrentChartData } from './files-store.actions';
 import { ValidData } from '../Interfaces/ValidData';
-import { state } from '@angular/animations';
 
 export interface FilesState {
   files: RecentFiles[];
