@@ -80,7 +80,7 @@ export class PieChartComponent implements AfterViewInit, OnChanges {
       .attr('fill', (d) =>
         this.colorPalette
           ? (this.colorPalette(d.data.category) as string)
-          : 'red'
+          : 'red',
       )
       .attr('stroke', '#ffffff')
       .style('stroke-width', '0.5px')
@@ -107,7 +107,7 @@ export class PieChartComponent implements AfterViewInit, OnChanges {
       .attr(
         'transform',
         (d) =>
-          `translate(${arcLabel.centroid(d as unknown as d3.DefaultArcObject)})`
+          `translate(${arcLabel.centroid(d as unknown as d3.DefaultArcObject)})`,
       )
       .call((text) =>
         text
@@ -116,7 +116,7 @@ export class PieChartComponent implements AfterViewInit, OnChanges {
           .attr('font-size', '16px')
           .attr('font-weight', 'bold')
           .attr('fill-opacity', 0.5)
-          .text((d) => d.data.category)
+          .text((d) => d.data.category),
       )
       .call((text) =>
         text
@@ -126,7 +126,7 @@ export class PieChartComponent implements AfterViewInit, OnChanges {
           .attr('y', '1em')
           .attr('font-size', '13px')
           .attr('fill-opacity', 0.4)
-          .text((d) => this.convertArcToPercents(d.startAngle, d.endAngle))
+          .text((d) => this.convertArcToPercents(d.startAngle, d.endAngle)),
       );
   }
 

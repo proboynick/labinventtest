@@ -52,7 +52,7 @@ export class FileInputFormComponent {
     this.fileReader.readAsText(event.files[0]);
     this.fileReader.onload = () => {
       const dataArray = this.validateFileContent(
-        this.fileReader.result as string
+        this.fileReader.result as string,
       );
       if (!dataArray) {
         // leave console warning for future notification service

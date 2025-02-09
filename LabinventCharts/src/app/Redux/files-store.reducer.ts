@@ -20,5 +20,5 @@ export const filesReducer = createReducer(
   }),
   on(setCurrentChartData, (state, { data }): FilesState => {
     return { ...state, currentData: data };
-  })
+  }),
 );

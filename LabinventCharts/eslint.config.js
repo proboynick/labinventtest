@@ -2,6 +2,8 @@
 const eslint = require("@eslint/js");
 const tseslint = require("typescript-eslint");
 const angular = require("angular-eslint");
+const typescriptEslint = require("@typescript-eslint/eslint-plugin");
+const eslintConfigPrettier = require("eslint-config-prettier");
 
 module.exports = tseslint.config(
   {
@@ -12,8 +14,12 @@ module.exports = tseslint.config(
       ...tseslint.configs.stylistic,
       ...angular.configs.tsRecommended,
     ],
+    plugins: {
+      typescriptEslint,
+    },
     processor: angular.processInlineTemplates,
     rules: {
+      ...eslintConfigPrettier.rules,
       "@angular-eslint/directive-selector": [
         "error",
         {
@@ -39,5 +45,24 @@ module.exports = tseslint.config(
       ...angular.configs.templateAccessibility,
     ],
     rules: {},
-  }
+    // overrides: [
+    //   {
+    //     files: ["*.ts"],
+    //     parserOptions: {
+    //       project: [
+    //         "tsconfig.*?.json",
+    //         "e2e/tsconfig.json"
+    //       ],
+    //       createDefaultProgram: true
+    //     },
+    //     extends: [
+    //       "plugin:@angular-eslint/recommended",
+    //       'prettier/@typescript-eslint',
+    //       'plugin:prettier/recommended'
+    //     ],
+    //     rules: {
+    //     }
+    //   },
+    // ]
+  },
 );

@@ -1,5 +1,5 @@
 export function appendMockTextToSvg(
-  svg: d3.Selection<SVGSVGElement, undefined, null, undefined>
+  svg: d3.Selection<SVGSVGElement, undefined, null, undefined>,
 ) {
   svg
     .append('g')

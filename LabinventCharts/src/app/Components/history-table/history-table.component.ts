@@ -24,7 +24,7 @@ export class HistoryTableComponent {
 
   onRowSelect = () => {
     this.store.dispatch(
-      setCurrentChartData({ data: this.selectedFiles?.fileContent || [] })
+      setCurrentChartData({ data: this.selectedFiles?.fileContent || [] }),
     );
   };
 }

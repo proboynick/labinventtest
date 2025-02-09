@@ -27,7 +27,10 @@ export class ChartsComponent implements OnInit, OnDestroy {
 
   colorPalette: d3.ScaleOrdinal<string, unknown, never> | null = null;
 
-  constructor(private store: Store, private cdRef: ChangeDetectorRef) {}
+  constructor(
+    private store: Store,
+    private cdRef: ChangeDetectorRef,
+  ) {}
 
   ngOnInit() {
     this.storeDataSubscription = this.store
@@ -51,7 +54,7 @@ export class ChartsComponent implements OnInit, OnDestroy {
       .range(
         d3
           .quantize((t) => d3.interpolateSpectral(t * 0.85 + 0.1), data.length)
-          .reverse()
+          .reverse(),
       );
   }
 }

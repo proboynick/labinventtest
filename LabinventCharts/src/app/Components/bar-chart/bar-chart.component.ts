@@ -46,14 +46,14 @@ export class BarChartComponent implements AfterViewInit, OnChanges {
       MARGIN_TOP_PX,
       MARGIN_RIGHT_PX,
       MARGIN_BOTTOM_PX,
-      MARGIN_LEFT_PX
+      MARGIN_LEFT_PX,
     );
   }
 
   private createHorizontalScale(
     width: number,
     marginLeft: number,
-    marginRight: number
+    marginRight: number,
   ): d3.ScaleBand<string> {
     return d3
       .scaleBand()
@@ -65,7 +65,7 @@ export class BarChartComponent implements AfterViewInit, OnChanges {
   private createVerticalScale(
     height: number,
     marginBottom: number,
-    marginTop: number
+    marginTop: number,
   ): d3.ScaleLinear<number, number, never> {
     return d3
       .scaleLinear()
@@ -76,7 +76,7 @@ export class BarChartComponent implements AfterViewInit, OnChanges {
 
   private drawBars(
     xScale: d3.ScaleBand<string>,
-    yScale: d3.ScaleLinear<number, number, never>
+    yScale: d3.ScaleLinear<number, number, never>,
   ): void {
     this.barSvg
       .attr('viewBox', [0, 0, CHART_WIDTH_PX, CHART_HEIGHT_PX])
@@ -85,7 +85,7 @@ export class BarChartComponent implements AfterViewInit, OnChanges {
       .data(this.data)
       .join('rect')
       .attr('fill', (d) =>
-        this.colorPalette ? (this.colorPalette(d.category) as string) : 'red'
+        this.colorPalette ? (this.colorPalette(d.category) as string) : 'red',
       )
       .attr('x', (d) => xScale(d.category) as number)
       .attr('y', (d) => yScale(d.value))
@@ -99,7 +99,7 @@ export class BarChartComponent implements AfterViewInit, OnChanges {
     xAxis: d3.Axis<string>,
     minY: number,
     height: number,
-    marginBottom: number
+    marginBottom: number,
   ) {
     this.barSvg
       .append('g')
@@ -111,7 +111,7 @@ export class BarChartComponent implements AfterViewInit, OnChanges {
   private drawVerticalAxis(
     yAxis: d3.Axis<d3.NumberValue>,
     minX: number,
-    marginLeft: number
+    marginLeft: number,
   ) {
     this.barSvg
       .append('g')
@@ -124,7 +124,7 @@ export class BarChartComponent implements AfterViewInit, OnChanges {
     marginTop: number,
     marginRight: number,
     marginBottom: number,
-    marginLeft: number
+    marginLeft: number,
   ) {
     this.barSvg.selectAll('g').remove();
     if (!this.data.length || !this.colorPalette) {
@@ -135,13 +135,13 @@ export class BarChartComponent implements AfterViewInit, OnChanges {
     const xScale = this.createHorizontalScale(
       CHART_WIDTH_PX,
       marginLeft,
-      marginRight
+      marginRight,
     );
     const xAxis = d3.axisBottom(xScale).tickSize(0).tickPadding(5);
     const yScale = this.createVerticalScale(
       CHART_HEIGHT_PX,
       marginBottom,
-      marginTop
+      marginTop,
     );
     const yAxis = d3.axisLeft(yScale).tickSize(5);
 
