@@ -41,10 +41,7 @@ export const filesReducer = createReducer(
   on(setCurrentChartData, (state, { data, selectedFile }): FilesState => {
     return {
       ...state,
-      currentData: prepareData(
-        selectedFile?.fileContent as ValidData[],
-        state.isRemoveZeroValues,
-      ),
+      currentData: prepareData(data, state.isRemoveZeroValues),
       selectedFile,
     };
   }),
