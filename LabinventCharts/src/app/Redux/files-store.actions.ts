@@ -9,5 +9,10 @@ export const pushFile = createAction(
 
 export const setCurrentChartData = createAction(
   '[FileState] Set Current Chart Data',
-  props<{ data: ValidData[] }>(),
+  props<{ data: ValidData[]; selectedFile: RecentFiles | null }>(),
+);
+
+export const setIsRemoveZeroValues = createAction(
+  '[FileState] Set Remove Zero Values',
+  props<{ value: boolean }>(),
 );
