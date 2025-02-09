@@ -1,8 +1,10 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ElementRef,
   Input,
+  OnChanges,
   ViewChild,
 } from '@angular/core';
 import * as d3 from 'd3';
@@ -25,7 +27,7 @@ import {
   styleUrl: './bar-chart.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BarChartComponent {
+export class BarChartComponent implements AfterViewInit, OnChanges {
   @ViewChild('barChart', { static: true, read: ElementRef })
   barChart: ElementRef | null = null;
 
@@ -34,8 +36,6 @@ export class BarChartComponent {
 
   private barSvg: d3.Selection<SVGSVGElement, undefined, null, undefined> =
     createSvgElement(CHART_WIDTH_PX, CHART_HEIGHT_PX);
-
-  constructor() {}
 
   ngAfterViewInit() {
     this.barChart?.nativeElement.append(this.barSvg.node());

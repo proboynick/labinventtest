@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ElementRef,
@@ -26,7 +27,7 @@ import {
   styleUrl: './pie-chart.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PieChartComponent implements OnChanges {
+export class PieChartComponent implements AfterViewInit, OnChanges {
   @ViewChild('pieChart', { static: true, read: ElementRef })
   pieChart: ElementRef | null = null;
 
@@ -38,7 +39,7 @@ export class PieChartComponent implements OnChanges {
 
   private pie = d3
     .pie<ValidData>()
-    .value(function (d: any) {
+    .value(function (d) {
       return d.value;
     })
     .sort(null); //disable preset sort
@@ -57,6 +58,7 @@ export class PieChartComponent implements OnChanges {
     this.pieSvg
       .selectAll('path')
       .append('title')
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .text((d: any) => `Category: ${d.data.category}\nValue: ${d.data.value}`);
   }
 

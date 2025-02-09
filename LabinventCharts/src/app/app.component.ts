@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { PrimeNG } from 'primeng/config';
 import { HistoryTableComponent } from './Components/history-table/history-table.component';
@@ -16,7 +16,7 @@ import { ChartsComponent } from './Components/charts/charts.component';
   templateUrl: './app.component.html',
   styleUrl: './app.component.less',
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'LabinventCharts';
   constructor(private primeng: PrimeNG) {}
 

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { TableModule, TableRowSelectEvent } from 'primeng/table';
+import { TableModule } from 'primeng/table';
 import { RecentFiles } from '../../Interfaces/RecentFiles';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';

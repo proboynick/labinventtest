@@ -2,6 +2,8 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  OnDestroy,
+  OnInit,
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as d3 from 'd3';
@@ -18,7 +20,7 @@ import { ValidData } from '../../Interfaces/ValidData';
   styleUrl: './charts.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ChartsComponent {
+export class ChartsComponent implements OnInit, OnDestroy {
   private storeDataSubscription: Subscription | null = null;
 
   data: ValidData[] = [];
