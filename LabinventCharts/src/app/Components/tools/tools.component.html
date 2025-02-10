@@ -1,7 +1,5 @@
-<h2>Tools</h2>
-<p-checkbox
-  [binary]="true"
-  inputId="checkbox"
-  (onChange)="toggleZeroValues($event)"
-/>
-<label for="checkbox" class="ml-2">Exclude categories with zero-values</label>
+<p>Tools</p>
+<div>
+  <p-checkbox [binary]="true" inputId="checkbox" (onChange)="toggleZeroValues($event)" />
+  <label for="checkbox" class="ml-2">Exclude categories with zero-values</label>
+</div>

@@ -1,15 +1,5 @@
-<h2>Add New File</h2>
-<p-fileupload
-  #form
-  [customUpload]="true"
-  [multiple]="false"
-  accept=".json"
-  maxFileSize="5242880"
-  mode="advanced"
-  (uploadHandler)="onUpload($event, form)"
-  chooseLabel="Select File"
-  uploadLabel="Add to Store"
->
+<p-fileupload #form [customUpload]="true" [multiple]="false" accept=".json" maxFileSize="5242880" mode="advanced"
+  (uploadHandler)="onUpload($event, form)" chooseLabel="Select File" uploadLabel="Add to Store">
   <ng-template #empty>
     <div>Drag and drop files to here to upload.</div>
   </ng-template>

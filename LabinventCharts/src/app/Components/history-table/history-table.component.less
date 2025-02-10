@@ -1,8 +1,25 @@
 :host {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 5px;
+  padding: 10px 20px 16px;
   width: 100%;
+
+  p {
+    opacity: 0.3;
+  }
 }
 
-h2 {
-  width: fit-content;
-  margin: 10px auto;
+:host ::ng-deep .p-datatable-table-container {
+  margin-top: 8px;
+  border: 1px solid #e2e8f0;
+  border-radius: 5px;
+}
+
+:host ::ng-deep .p-datatable-thead > tr > th {
+  padding: 7px;
+}
+
+:host ::ng-deep .p-datatable-tbody > tr > td {
+  padding: 7px;
 }

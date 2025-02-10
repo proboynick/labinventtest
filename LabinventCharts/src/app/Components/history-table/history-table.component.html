@@ -1,13 +1,6 @@
-<h2>Recent Files</h2>
-<p-table
-  [value]="$any(fileStore$ | async)"
-  selectionMode="single"
-  [tableStyle]="{ 'min-width': '25rem' }"
-  stripedRows
-  (onRowSelect)="onRowSelect()"
-  [(selection)]="selectedFiles"
-  dataKey="uploadDate"
->
+<p>Recent Files</p>
+<p-table [value]="$any(fileStore$ | async)" selectionMode="single" [tableStyle]="{ 'min-width': '25rem' }" stripedRows
+  (onRowSelect)="onRowSelect()" [(selection)]="selectedFiles" dataKey="uploadDate">
   <ng-template #header>
     <tr>
       <th style="width: 2rem"></th>
