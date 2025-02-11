@@ -1,7 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { CheckboxChangeEvent, CheckboxModule } from 'primeng/checkbox';
-import { setIsRemoveZeroValues } from '../../Redux/files-store.actions';
+import {
+  setFirstSortLetter,
+  setIsRemoveZeroValues,
+  setLastSortLetter,
+} from '../../Redux/files-store.actions';
 import { SelectChangeEvent, SelectModule } from 'primeng/select';
 
 @Component({
@@ -43,8 +47,20 @@ export class ToolsComponent {
     'z',
   ];
 
-  setFilterValue(event: SelectChangeEvent) {
-    console.log(event.value);
+  setFirstSortLetter(event: SelectChangeEvent) {
+    if (!event.value) {
+      this.store.dispatch(setFirstSortLetter({ value: 'a' }));
+      return;
+    }
+    this.store.dispatch(setFirstSortLetter({ value: event.value }));
+  }
+
+  setLastSortLetter(event: SelectChangeEvent) {
+    if (!event.value) {
+      this.store.dispatch(setLastSortLetter({ value: 'z' }));
+      return;
+    }
+    this.store.dispatch(setLastSortLetter({ value: event.value }));
   }
 
   toggleZeroValues(event: CheckboxChangeEvent) {

@@ -2,10 +2,7 @@ import { createAction, props } from '@ngrx/store';
 import { RecentFiles } from '../Interfaces/RecentFiles';
 import { ValidData } from '../Interfaces/ValidData';
 
-export const pushFile = createAction(
-  '[FilesState] Push file',
-  props<{ file: RecentFiles }>(),
-);
+export const pushFile = createAction('[FilesState] Push file', props<{ file: RecentFiles }>());
 
 export const setCurrentChartData = createAction(
   '[FileState] Set Current Chart Data',
@@ -15,4 +12,14 @@ export const setCurrentChartData = createAction(
 export const setIsRemoveZeroValues = createAction(
   '[FileState] Set Remove Zero Values',
   props<{ value: boolean }>(),
+);
+
+export const setFirstSortLetter = createAction(
+  '[FileState] Set First Sort Letter',
+  props<{ value: string }>(),
+);
+
+export const setLastSortLetter = createAction(
+  '[FileState] Set Last Sort Letter',
+  props<{ value: string }>(),
 );
