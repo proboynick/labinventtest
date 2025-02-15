@@ -1,6 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { RecentFiles } from '../Interfaces/RecentFiles';
-import { ValidData } from '../Interfaces/ValidData';
+import { RecentFiles, ValidData } from '../Interfaces';
 
 export const pushFile = createAction(
   '[FilesState] Push file',

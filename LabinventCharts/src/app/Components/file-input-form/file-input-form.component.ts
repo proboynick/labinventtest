@@ -6,10 +6,9 @@ import {
 } from 'primeng/fileupload';
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
-import { RecentFiles } from '../../Interfaces/RecentFiles';
-import { ValidData } from '../../Interfaces/ValidData';
 import { Store } from '@ngrx/store';
 import { pushFile } from '../../Redux';
+import { RecentFiles, ValidData } from '../../Interfaces';
 
 @Component({
   selector: 'app-file-input-form',

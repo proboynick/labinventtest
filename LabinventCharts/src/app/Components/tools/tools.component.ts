@@ -9,12 +9,12 @@ import { Store } from '@ngrx/store';
 import { CheckboxChangeEvent, CheckboxModule } from 'primeng/checkbox';
 import { SelectChangeEvent, SelectModule } from 'primeng/select';
 import { Subscription } from 'rxjs';
-import { ValidData } from '../../Interfaces/ValidData';
 import {
   selectSelectedFile,
   setFilterLetter,
   setIsRemoveZeroValues,
 } from '../../Redux';
+import { ValidData } from '../../Interfaces';
 
 @Component({
   selector: 'app-tools',

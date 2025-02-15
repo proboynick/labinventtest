@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TableModule } from 'primeng/table';
-import { RecentFiles } from '../../Interfaces/RecentFiles';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { selectFiles, setCurrentChartData } from '../../Redux';
+import { RecentFiles } from '../../Interfaces';
 
 @Component({
   selector: 'app-history-table',

@@ -1,12 +1,11 @@
 import { createReducer, on } from '@ngrx/store';
-import { RecentFiles } from '../Interfaces/RecentFiles';
 import {
   pushFile,
   setCurrentChartData,
   setFilterLetter,
   setIsRemoveZeroValues,
 } from './files-store.actions';
-import { ValidData } from '../Interfaces/ValidData';
+import { RecentFiles, ValidData } from '../Interfaces';
 
 export interface FilesState {
   files: RecentFiles[];

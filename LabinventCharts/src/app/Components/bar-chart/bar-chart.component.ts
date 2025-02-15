@@ -8,7 +8,6 @@ import {
   ViewChild,
 } from '@angular/core';
 import * as d3 from 'd3';
-import { ValidData } from '../../Interfaces/ValidData';
 import { appendMockTextToSvg, createSvgElement } from '../../Utils';
 import {
   BAR_PADDING_COEF,
@@ -19,6 +18,7 @@ import {
   MARGIN_RIGHT_PX,
   MARGIN_TOP_PX,
 } from '../../Constants';
+import { ValidData } from '../../Interfaces';
 
 @Component({
   selector: 'app-bar-chart',

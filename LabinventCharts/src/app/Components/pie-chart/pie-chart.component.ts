@@ -7,7 +7,6 @@ import {
   OnChanges,
   ViewChild,
 } from '@angular/core';
-import { ValidData } from '../../Interfaces/ValidData';
 import { CommonModule } from '@angular/common';
 import * as d3 from 'd3';
 import { appendMockTextToSvg, createSvgElement } from '../../Utils';
@@ -19,6 +18,7 @@ import {
   PIE_CHART_PAD_ANGLE_RAD,
   PIE_CHART_STROKE_OPACITY,
 } from '../../Constants';
+import { ValidData } from '../../Interfaces';
 
 @Component({
   selector: 'app-pie-chart',
