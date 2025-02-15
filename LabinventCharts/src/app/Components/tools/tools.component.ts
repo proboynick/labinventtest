@@ -49,7 +49,7 @@ export class ToolsComponent implements OnInit, OnDestroy {
     if (!chartData) {
       return;
     }
-    const firstLetterMap: { [key in string]: string } = {};
+    const firstLetterMap: Record<string, string> = {};
     chartData.forEach((el) => {
       const character = el.category.toString().toLowerCase()[0];
       firstLetterMap[character] = character.toUpperCase();

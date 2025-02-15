@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { pushFile } from '../../Redux';
 import { RecentFiles, ValidData } from '../../Interfaces';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-file-input-form',
@@ -20,7 +21,10 @@ import { RecentFiles, ValidData } from '../../Interfaces';
 export class FileInputFormComponent {
   private fileReader: FileReader = new FileReader();
 
-  constructor(private store: Store) {}
+  constructor(
+    private store: Store,
+    private msgService: MessageService,
+  ) {}
 
   private validateFileContent = (fileContent: string): null | ValidData[] => {
     if (typeof fileContent !== 'string' || !fileContent.length) {
@@ -38,30 +42,63 @@ export class FileInputFormComponent {
         return;
       validatedData.push({ ...el, category: el.category.toString() });
     });
+    if (validatedData.length < parsedData.length) {
+      this.showExtractDataWarn(parsedData.length - validatedData.length);
+    }
     return validatedData;
   };
 
+  private showErrorDataFormat() {
+    this.msgService.add({
+      severity: 'error',
+      summary: 'Error ',
+      detail: 'Wrong file data format! File was not uploaded.',
+      life: 3000,
+      closable: true,
+    });
+  }
+
+  private showExtractDataWarn(removedElementsCount: number) {
+    this.msgService.add({
+      severity: 'warn',
+      summary: 'Warning',
+      detail: `File has elements of incorrect data, ${removedElementsCount} elements was been removed!`,
+      life: 3000,
+      closable: true,
+    });
+  }
+
+  private showSuccesfullMessage() {
+    this.msgService.add({
+      severity: 'success',
+      summary: 'Success',
+      detail: 'File was added to store successfully!',
+      life: 3000,
+      closable: true,
+    });
+  }
+
   onUpload = (event: FileUploadHandlerEvent, form: FileUpload) => {
-    const file = event.files[0];
+    const [file] = event.files;
     const fileDTO: RecentFiles = {
       fileName: file.name,
       fileSize: file.size,
       uploadDate: new Date(),
       fileContent: [],
     };
-    this.fileReader.readAsText(event.files[0]);
+    this.fileReader.readAsText(file);
     this.fileReader.onload = () => {
       const dataArray = this.validateFileContent(
         this.fileReader.result as string,
       );
       if (!dataArray) {
-        // leave console warning for future notification service
-        console.warn('Wrong file data! File was not uploaded');
+        this.showErrorDataFormat();
         return;
       }
       fileDTO.fileContent = dataArray;
       this.store.dispatch(pushFile({ file: fileDTO }));
     };
+    this.showSuccesfullMessage();
     form.clear();
   };
 }
