@@ -1,6 +1,13 @@
 <p>Recent Files</p>
-<p-table [value]="$any(fileStore$ | async)" selectionMode="single" [tableStyle]="{ 'min-width': '25rem' }" stripedRows
-  (onRowSelect)="onRowSelect()" [(selection)]="selectedFiles" dataKey="uploadDate">
+<p-table
+  [value]="$any(fileStore$ | async)"
+  selectionMode="single"
+  [tableStyle]="{ 'min-width': '25rem' }"
+  stripedRows
+  (onRowSelect)="onRowSelect()"
+  [(selection)]="selectedFiles"
+  dataKey="uploadDate"
+>
   <ng-template #header>
     <tr>
       <th style="width: 2rem"></th>
@@ -15,7 +22,7 @@
         <p-tableRadioButton [value]="item" />
       </td>
       <td>{{ item.fileName }}</td>
-      <td>{{ item.fileSize }}</td>
+      <td>{{ item.fileSize | fileSize }}</td>
       <td>{{ item.uploadDate | date: "medium" }}</td>
     </tr>
   </ng-template>
