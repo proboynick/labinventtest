@@ -29,6 +29,9 @@ function prepareData(
   isRemoveZeroValues: boolean,
   firstSortLetter: string,
 ): ValidData[] {
+  if (!enterData) {
+    return [];
+  }
   if (!isRemoveZeroValues && !firstSortLetter) {
     return enterData;
   }
