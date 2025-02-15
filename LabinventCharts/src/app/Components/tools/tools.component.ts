@@ -45,7 +45,10 @@ export class ToolsComponent implements OnInit, OnDestroy {
     this.store.dispatch(setIsRemoveZeroValues({ value: isChecked }));
   }
 
-  private calculateOptions(chartData: ValidData[]) {
+  private calculateOptions(chartData: ValidData[] | undefined) {
+    if (!chartData) {
+      return;
+    }
     const firstLetterMap: { [key in string]: string } = {};
     chartData.forEach((el) => {
       const character = el.category.toString().toLowerCase()[0];
@@ -60,7 +63,7 @@ export class ToolsComponent implements OnInit, OnDestroy {
     this.storeDataSubscription = this.store
       .select(selectSelectedFile)
       .subscribe((selectedFile) => {
-        this.calculateOptions(selectedFile?.fileContent as ValidData[]);
+        this.calculateOptions(selectedFile?.fileContent);
         this.cdRef.detectChanges();
       });
   }
