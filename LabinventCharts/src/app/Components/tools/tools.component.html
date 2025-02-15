@@ -1,17 +1,24 @@
 <p>Tools</p>
 <div>
-  <p-checkbox [binary]="true" inputId="checkbox" (onChange)="toggleZeroValues($event)" />
-  <label for="checkbox">Exclude categories with zero-values</label>
+  <p-checkbox
+    [binary]="true"
+    inputId="checkbox"
+    (onChange)="toggleMinValues($event)"
+  />
+  <label for="checkbox">Exclude categories with min values</label>
   <div></div>
   <div>
-    Show categories
+    Show categories, start with:
     <div>
-      from:
-      <p-select size="small" [options]="alphabet" [checkmark]="true" [showClear]="true" placeholder="a"
-        (onChange)="setFirstSortLetter($event)" />
-      <span>to:</span>
-      <p-select size="small" [options]="alphabet" [checkmark]="true" [showClear]="true" placeholder="z"
-        (onChange)="setLastSortLetter($event)" />
+      <p-select
+        size="small"
+        [options]="options"
+        optionLabel="label"
+        [checkmark]="true"
+        [showClear]="true"
+        placeholder="Select first letter"
+        (onChange)="setFilterLetter($event)"
+      />
     </div>
   </div>
 </div>

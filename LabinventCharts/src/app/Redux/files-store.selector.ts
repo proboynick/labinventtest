@@ -12,3 +12,8 @@ export const selectChartData = createSelector(
   selectFeature,
   (state: FilesState) => state.currentData,
 );
+
+export const selectSelectedFile = createSelector(
+  selectFeature,
+  (state: FilesState) => state.selectedFile,
+);

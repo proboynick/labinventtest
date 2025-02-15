@@ -3,9 +3,8 @@ import { RecentFiles } from '../Interfaces/RecentFiles';
 import {
   pushFile,
   setCurrentChartData,
-  setFirstSortLetter,
+  setFilterLetter,
   setIsRemoveZeroValues,
-  setLastSortLetter,
 } from './files-store.actions';
 import { ValidData } from '../Interfaces/ValidData';
 
@@ -14,8 +13,7 @@ export interface FilesState {
   selectedFile: RecentFiles | null;
   currentData: ValidData[];
   isRemoveZeroValues: boolean;
-  firstSortLetter: string;
-  lastSortLetter: string;
+  filterLetter: string;
 }
 
 const initialState: FilesState = {
@@ -23,26 +21,27 @@ const initialState: FilesState = {
   selectedFile: null,
   currentData: [],
   isRemoveZeroValues: false,
-  firstSortLetter: 'a',
-  lastSortLetter: 'z',
+  filterLetter: '',
 };
 
 function prepareData(
   enterData: ValidData[],
   isRemoveZeroValues: boolean,
   firstSortLetter: string,
-  lastSortLetter: string,
 ): ValidData[] {
+  if (!isRemoveZeroValues && !firstSortLetter) {
+    return enterData;
+  }
   let data: ValidData[] = [];
 
   if (isRemoveZeroValues) {
-    data = enterData.filter((el) => el.value !== 0);
+    const minValue = Math.min(...enterData.map<number>((el) => el.value));
+    data = enterData.filter((el) => el.value !== minValue);
   } else {
     data = enterData;
   }
   return data.filter((el) => {
-    const firstLetter = el.category.toLowerCase()[0];
-    return firstLetter >= firstSortLetter && firstLetter <= lastSortLetter;
+    return el.category.toLowerCase().startsWith(firstSortLetter);
   });
 }
 
@@ -57,8 +56,7 @@ export const filesReducer = createReducer(
       currentData: prepareData(
         data,
         state.isRemoveZeroValues,
-        state.firstSortLetter,
-        state.lastSortLetter,
+        state.filterLetter,
       ),
       selectedFile,
     };
@@ -70,31 +68,17 @@ export const filesReducer = createReducer(
       currentData: prepareData(
         state.selectedFile?.fileContent as ValidData[],
         value,
-        state.firstSortLetter,
-        state.lastSortLetter,
+        state.filterLetter,
       ),
     };
   }),
-  on(setFirstSortLetter, (state, { value }): FilesState => {
+  on(setFilterLetter, (state, { value }): FilesState => {
     return {
       ...state,
-      firstSortLetter: value,
+      filterLetter: value,
       currentData: prepareData(
         state.selectedFile?.fileContent as ValidData[],
         state.isRemoveZeroValues,
-        value,
-        state.lastSortLetter,
-      ),
-    };
-  }),
-  on(setLastSortLetter, (state, { value }): FilesState => {
-    return {
-      ...state,
-      lastSortLetter: value,
-      currentData: prepareData(
-        state.selectedFile?.fileContent as ValidData[],
-        state.isRemoveZeroValues,
-        state.firstSortLetter,
         value,
       ),
     };

@@ -1,12 +1,20 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 import { CheckboxChangeEvent, CheckboxModule } from 'primeng/checkbox';
 import {
-  setFirstSortLetter,
+  setFilterLetter,
   setIsRemoveZeroValues,
-  setLastSortLetter,
 } from '../../Redux/files-store.actions';
 import { SelectChangeEvent, SelectModule } from 'primeng/select';
+import { Subscription } from 'rxjs';
+import { selectSelectedFile } from '../../Redux/files-store.selector';
+import { ValidData } from '../../Interfaces/ValidData';
 
 @Component({
   selector: 'app-tools',
@@ -15,56 +23,49 @@ import { SelectChangeEvent, SelectModule } from 'primeng/select';
   styleUrl: './tools.component.less',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ToolsComponent {
-  constructor(private store: Store) {}
+export class ToolsComponent implements OnInit, OnDestroy {
+  private storeDataSubscription: Subscription | null = null;
+  constructor(
+    private store: Store,
+    private cdRef: ChangeDetectorRef,
+  ) {}
 
-  alphabet: string[] = [
-    'a',
-    'b',
-    'c',
-    'd',
-    'e',
-    'f',
-    'g',
-    'h',
-    'i',
-    'j',
-    'k',
-    'l',
-    'm',
-    'n',
-    'o',
-    'p',
-    'q',
-    'r',
-    's',
-    't',
-    'u',
-    'v',
-    'w',
-    'x',
-    'y',
-    'z',
-  ];
+  options: { id: string; label: string }[] = [];
 
-  setFirstSortLetter(event: SelectChangeEvent) {
+  setFilterLetter(event: SelectChangeEvent) {
     if (!event.value) {
-      this.store.dispatch(setFirstSortLetter({ value: 'a' }));
+      this.store.dispatch(setFilterLetter({ value: '' }));
       return;
     }
-    this.store.dispatch(setFirstSortLetter({ value: event.value }));
+    this.store.dispatch(setFilterLetter({ value: event.value.id }));
   }
 
-  setLastSortLetter(event: SelectChangeEvent) {
-    if (!event.value) {
-      this.store.dispatch(setLastSortLetter({ value: 'z' }));
-      return;
-    }
-    this.store.dispatch(setLastSortLetter({ value: event.value }));
-  }
-
-  toggleZeroValues(event: CheckboxChangeEvent) {
+  toggleMinValues(event: CheckboxChangeEvent) {
     const isChecked = event.checked;
     this.store.dispatch(setIsRemoveZeroValues({ value: isChecked }));
+  }
+
+  private calculateOptions(chartData: ValidData[]) {
+    const firstLetterMap: { [key in string]: string } = {};
+    chartData.forEach((el) => {
+      const character = el.category.toString().toLowerCase()[0];
+      firstLetterMap[character] = character.toUpperCase();
+    });
+    this.options = Object.entries(firstLetterMap)
+      .map(([id, label]) => ({ id, label }))
+      .sort((a, b) => a.label.localeCompare(b.label));
+  }
+
+  ngOnInit() {
+    this.storeDataSubscription = this.store
+      .select(selectSelectedFile)
+      .subscribe((selectedFile) => {
+        this.calculateOptions(selectedFile?.fileContent as ValidData[]);
+        this.cdRef.detectChanges();
+      });
+  }
+
+  ngOnDestroy() {
+    this.storeDataSubscription?.unsubscribe();
   }
 }
