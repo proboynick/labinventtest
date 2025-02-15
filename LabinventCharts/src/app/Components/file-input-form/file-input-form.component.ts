@@ -32,11 +32,12 @@ export class FileInputFormComponent {
       return null;
     }
     const validatedData: ValidData[] = [];
-    parsedData.forEach((el) => {
+    parsedData.forEach((el: ValidData) => {
       if (typeof el !== 'object') return;
       if (!('category' in el) || !el.category) return;
-      if (!('value' in el) || typeof el.value !== 'number') return;
-      validatedData.push(el);
+      if (!('value' in el) || typeof el.value !== 'number' || el.value < 0)
+        return;
+      validatedData.push({ ...el, category: el.category.toString() });
     });
     return validatedData;
   };
@@ -45,7 +46,7 @@ export class FileInputFormComponent {
     const file = event.files[0];
     const fileDTO: RecentFiles = {
       fileName: file.name,
-      fileSize: `${file.size}b`,
+      fileSize: file.size,
       uploadDate: new Date(),
       fileContent: [],
     };
