@@ -77,11 +77,12 @@ export class PieChartComponent implements AfterViewInit, OnChanges {
           padAngle: PIE_CHART_PAD_ANGLE_RAD,
         });
       })
-      .attr('fill', (d) =>
-        this.colorPalette
-          ? (this.colorPalette(d.data.category) as string)
-          : 'red',
-      )
+      .attr('fill', (d) => {
+        if (!this.colorPalette || this.data.length < 2) {
+          return 'rgb(73, 156, 178)';
+        }
+        return this.colorPalette(d.data.category) as string;
+      })
       .attr('stroke', '#ffffff')
       .style('stroke-width', '0.5px')
       .style('opacity', PIE_CHART_STROKE_OPACITY);

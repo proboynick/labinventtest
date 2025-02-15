@@ -84,9 +84,12 @@ export class BarChartComponent implements AfterViewInit, OnChanges {
       .selectAll()
       .data(this.data)
       .join('rect')
-      .attr('fill', (d) =>
-        this.colorPalette ? (this.colorPalette(d.category) as string) : 'red',
-      )
+      .attr('fill', (d) => {
+        if (!this.colorPalette || this.data.length < 2) {
+          return 'rgb(73, 156, 178)';
+        }
+        return this.colorPalette(d.category) as string;
+      })
       .attr('x', (d) => xScale(d.category) as number)
       .attr('y', (d) => yScale(d.value))
       .attr('height', (d) => yScale(0) - yScale(d.value))
