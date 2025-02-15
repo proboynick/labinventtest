@@ -12,7 +12,7 @@ export interface FilesState {
   files: RecentFiles[];
   selectedFile: RecentFiles | null;
   currentData: ValidData[];
-  isRemoveZeroValues: boolean;
+  isHideMinValues: boolean;
   filterLetter: string;
 }
 
@@ -20,24 +20,24 @@ const initialState: FilesState = {
   files: [],
   selectedFile: null,
   currentData: [],
-  isRemoveZeroValues: false,
+  isHideMinValues: false,
   filterLetter: '',
 };
 
 function prepareData(
   enterData: ValidData[],
-  isRemoveZeroValues: boolean,
+  isRemoveMinValues: boolean,
   firstSortLetter: string,
 ): ValidData[] {
   if (!enterData) {
     return [];
   }
-  if (!isRemoveZeroValues && !firstSortLetter) {
+  if (!isRemoveMinValues && !firstSortLetter) {
     return enterData;
   }
   let data: ValidData[] = [];
 
-  if (isRemoveZeroValues) {
+  if (isRemoveMinValues) {
     const minValue = Math.min(...enterData.map<number>((el) => el.value));
     data = enterData.filter((el) => el.value !== minValue);
   } else {
@@ -56,18 +56,14 @@ export const filesReducer = createReducer(
   on(setCurrentChartData, (state, { data, selectedFile }): FilesState => {
     return {
       ...state,
-      currentData: prepareData(
-        data,
-        state.isRemoveZeroValues,
-        state.filterLetter,
-      ),
+      currentData: prepareData(data, state.isHideMinValues, state.filterLetter),
       selectedFile,
     };
   }),
   on(setIsRemoveZeroValues, (state, { value }): FilesState => {
     return {
       ...state,
-      isRemoveZeroValues: value,
+      isHideMinValues: value,
       currentData: prepareData(
         state.selectedFile?.fileContent as ValidData[],
         value,
@@ -81,7 +77,7 @@ export const filesReducer = createReducer(
       filterLetter: value,
       currentData: prepareData(
         state.selectedFile?.fileContent as ValidData[],
-        state.isRemoveZeroValues,
+        state.isHideMinValues,
         value,
       ),
     };
