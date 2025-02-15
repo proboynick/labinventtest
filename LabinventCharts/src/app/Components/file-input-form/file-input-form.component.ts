@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 import { RecentFiles } from '../../Interfaces/RecentFiles';
 import { ValidData } from '../../Interfaces/ValidData';
 import { Store } from '@ngrx/store';
-import { pushFile } from '../../Redux/files-store.actions';
+import { pushFile } from '../../Redux';
 
 @Component({
   selector: 'app-file-input-form',

@@ -3,8 +3,7 @@ import { TableModule } from 'primeng/table';
 import { RecentFiles } from '../../Interfaces/RecentFiles';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
-import { selectFiles } from '../../Redux/files-store.selector';
-import { setCurrentChartData } from '../../Redux/files-store.actions';
+import { selectFiles, setCurrentChartData } from '../../Redux';
 
 @Component({
   selector: 'app-history-table',

@@ -7,14 +7,14 @@ import {
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { CheckboxChangeEvent, CheckboxModule } from 'primeng/checkbox';
-import {
-  setFilterLetter,
-  setIsRemoveZeroValues,
-} from '../../Redux/files-store.actions';
 import { SelectChangeEvent, SelectModule } from 'primeng/select';
 import { Subscription } from 'rxjs';
-import { selectSelectedFile } from '../../Redux/files-store.selector';
 import { ValidData } from '../../Interfaces/ValidData';
+import {
+  selectSelectedFile,
+  setFilterLetter,
+  setIsRemoveZeroValues,
+} from '../../Redux';
 
 @Component({
   selector: 'app-tools',

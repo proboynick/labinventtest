@@ -7,11 +7,11 @@ import {
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as d3 from 'd3';
-import { selectChartData } from '../../Redux/files-store.selector';
 import { Subscription } from 'rxjs';
 import { PieChartComponent } from '../pie-chart/pie-chart.component';
 import { BarChartComponent } from '../bar-chart/bar-chart.component';
 import { ValidData } from '../../Interfaces/ValidData';
+import { selectChartData } from '../../Redux';
 
 @Component({
   selector: 'app-charts',
